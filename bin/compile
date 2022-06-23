@@ -11,7 +11,7 @@ output() {
   done
 }
 
-DL=foo=${REMOTE_DL:-default}
+DL=${REMOTE_DL:-default}
 
 echo $REMOTE_DL
 
