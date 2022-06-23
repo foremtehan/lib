@@ -11,26 +11,15 @@ output() {
   done
 }
 
-DL=${REMOTE_DL:-default}
-
-echo $REMOTE_DL
-
 FILENAME="./telegram-bot-api.zip"
 
 BUILD_DIR=${1:-}
 
 cd $BUILD_DIR
 
-code=$(curl "$DL" -L --silent --fail --retry 5 --retry-max-time 15 -o $FILENAME --write-out "%{http_code}")
-
-if [ "$code" != "200" ]; then
-  echo "Unable to download LIB: $code" | output && exit 1
-fi
-
 mkdir -p oks
 
 unzip $FILENAME -d oks
-
 
 BINARY_FILE="$BUILD_DIR"/oks/telegram-bot-api/bin/telegram-bot-api
 
