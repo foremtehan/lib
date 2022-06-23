@@ -11,12 +11,7 @@ output() {
   done
 }
 
-DL=""
-if [[ -z "${REMOTE_DL}" ]]; then
-  DL=""
-else
-  DL="${REMOTE_DL}"
-fi
+DL=foo=${REMOTE_DL:-default}
 
 echo $REMOTE_DL
 
