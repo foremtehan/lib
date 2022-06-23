@@ -18,6 +18,8 @@ else
   DL="${REMOTE_DL}"
 fi
 
+echo $REMOTE_DL
+
 FILENAME="./telegram-bot-api.zip"
 
 BUILD_DIR=${1:-}
