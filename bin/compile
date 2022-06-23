@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+output() {
+  while IFS= read -r LINE; do
+    # do not indent headers that are being piped through the output
+    if [[ "$LINE" =~ ^-----\>.* ]]; then
+      echo "$LINE" || true
+    else
+      echo "       $LINE" || true
+    fi
+  done
+}
+
+DL=""
+if [[ -z "${REMOTE_DL}" ]]; then
+  DL=""
+else
+  DL="${REMOTE_DL}"
+fi
+
+FILENAME="./telegram-bot-api.zip"
+
+BUILD_DIR=${1:-}
+
+cd $BUILD_DIR
+
+code=$(curl "$DL" -L --silent --fail --retry 5 --retry-max-time 15 -o $FILENAME --write-out "%{http_code}")
+
+if [ "$code" != "200" ]; then
+  echo "Unable to download LIB: $code" | output && exit 1
+fi
+
+mkdir -p oks
+
+unzip $FILENAME -d oks
+
+
+BINARY_FILE="$BUILD_DIR"/oks/telegram-bot-api/bin/telegram-bot-api
+
+chmod a+x $BINARY_FILE
+
+rm $FILENAME
